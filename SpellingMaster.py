@@ -55,7 +55,8 @@ def correctSpelling(word):
      print('Correct spelling is *****'+word+'*****') 
 
 
-def word_definition (df):
+def word_definition (word):
+	df = open("definitions/"+word+".txt")
     definition = df.readline()
     definition = definition.replace("dict_api.callbacks.id100(", "").replace(",200,null)", "").replace("\\x","\\u00");
     #print definition
@@ -75,7 +76,7 @@ def word_definition (df):
                 if entries['type'] == 'meaning':
 					#pprint.pprint(entries)
                 	if len(entries['terms']) > 0:
-                		print(entries['terms'][0]['text'].replace(('love'),"<Your Word>"))
+                		print(entries['terms'][0]['text'].replace((word),"<Your Word>"))
                 		found = 1
 					
             if 'labels' in primaries['terms'][0]:
@@ -91,7 +92,7 @@ def word_definition (df):
             		if entries['type'] == 'meaning':
 						#pprint.pprint(entries)
             			if len(entries['terms']) > 0:
-            				print(entries['terms'][0]['text'].replace(('love'),"<Your Word>"))
+            				print(entries['terms'][0]['text'].replace((word),"<Your Word>"))
             				found =0
             	if 'labels' in primaries['terms'][0]:			
             		part_of_speach.append( primaries['terms'][0]["labels"][0]['text'])
@@ -140,17 +141,19 @@ else:
                 if os.path.isfile("sounds/"+question+".mp3") :
                     play(question)
                     answer = input("Enter spelling (q : to quit; r : to repeat d : to define):")
+					answer = answer.strip()
                     if(answer == 'q'):
                         break
-                    while answer == 'r' or answer == 'd':
+                    while not answer or answer == 'r' or answer == 'd':
                     	if answer == 'r':
                     		play(question) 
                     	if answer == 'd':
                     		if os.path.isfile("definitions/"+question+".txt"):
-                    			word_definition(open("definitions/"+question+".txt")) 
+                    			word_definition(question) 
                     		else:
                     			print("Sorry no definition!")
-                    	answer = input("Enter spelling (q : to quit; r : to repeat d : to define):")		
+                    	answer = input("Enter spelling (q : to quit; r : to repeat d : to define):")
+						answer = answer.strip()						
                     if(answer == question):
                         play('/response/ding')
                         #play('is')
