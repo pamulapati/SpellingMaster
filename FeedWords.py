@@ -1,6 +1,9 @@
 # Anjali is smart, this is Dad's test code for princess Anjali.
 
 import random,os
+import json
+import pprint
+import httplib2
 
 def ask_ok(prompt, retries=4, complaint='Yes or no, please!'):
         while True:
@@ -19,7 +22,51 @@ def play(word):
     #for word in words:
         p=os.system('mpg321 -q  sounds/'+word+'.mp3')
 
+def word_definition (word):
+    print ("------Definition-------")
+    df = open("definitions/"+word+".txt")
+    definition = df.readline()
 
+    definition = definition.replace("dict_api.callbacks.id100(", "").replace(",200,null)", "").replace("\\x","\\u00");
+    #print (definition)    
+    definition_list = json.loads(definition)
+    #pprint.pprint(definition_list)
+    #print type(definition_list)
+    #print definition_list['primaries']	
+    #pprint.pprint(definition_list['primaries'])
+    found = 0
+    part_of_speach = []
+    if 'primaries' in definition_list:
+        for primaries in definition_list['primaries']:
+			#pprint.pprint( primaries['entries'])
+            for entries in primaries['entries']:
+				#pprint.pprint( entries)
+				#print "---------------------"
+                if entries['type'] == 'meaning':
+					#pprint.pprint(entries)
+                	if len(entries['terms']) > 0:
+                		print(entries['terms'][0]['text'].replace((word),"<Your Word>"))
+                		found = 1
+					
+            if 'labels' in primaries['terms'][0]:
+            	part_of_speach.append(" "+ primaries['terms'][0]["labels"][0]['text'])
+	
+    if not found:
+    	if 'webDefinitions' in definition_list:	
+            for primaries in definition_list['webDefinitions']:
+				#pprint.pprint( primaries['entries'])
+            	for entries in primaries['entries']:
+					#pprint.pprint( entries)
+					#print "---------------------"
+            		if entries['type'] == 'meaning':
+						#pprint.pprint(entries)
+            			if len(entries['terms']) > 0:
+            				print(entries['terms'][0]['text'].replace((word),"<Your Word>"))
+            				found =0
+            	if 'labels' in primaries['terms'][0]:			
+            		part_of_speach.append( primaries['terms'][0]["labels"][0]['text'])
+    print ("Part of Speach :"+ str(part_of_speach))		
+    print ("------End of Definition-------")
 
 name = input('What is your name?\n')
 if name not in ('Anjali', 'Angel'):
@@ -55,6 +102,25 @@ else:
                     play(value)
                     recenthomeworkfile.write(value+"\n")
                     allhomeworkfile.write(value+"\n")
+			
+			#Do we have definition file?
+            if os.path.isfile("definitions/"+value+".txt") == False:
+                 #os.system('wget http://www.google.com/dictionary/json?callback=dict_api.callbacks.id100&q='+value+'&sl=en&tl=en&restrict=pr%2Cde&client=te -P definitions/'+value+'.txt')
+            	 resp, content = httplib2.Http().request("http://www.google.com/dictionary/json?callback=dict_api.callbacks.id100&q="+value+"&sl=en&tl=en&restrict=pr%2Cde&client=te")
+            	 #print (resp)
+            	 #print (content)
+            	 definitionfile = open('definitions/'+value+'.txt', 'w')
+            	 definitionfile.write(content.decode("utf-8")+"\n")
+            	 definitionfile.flush()
+            	 definitionfile.close() 
+				 
+            	 if os.path.isfile("definitions/"+value+".txt") :
+            	    word_definition(value)
+            	 else:
+            	    print ('I am sorry, i do not know how to define this word!!!')     
+            else:
+                    word_definition(value)
+                    	
         recenthomeworkfile.flush()
         recenthomeworkfile.close()
         allhomeworkfile.flush()
