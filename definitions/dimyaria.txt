@@ -1,0 +1,1 @@
+dict_api.callbacks.id100({"query":"dimyaria","sourceLanguage":"en","targetLanguage":"en"},200,null)

@@ -66,36 +66,36 @@ def word_definition (df):
     #pprint.pprint(definition_list['primaries'])
     found = 0
     part_of_speach = []
-    if 'primaries' in definition_list:
-        for primaries in definition_list['primaries']:
+    if definition_list.has_key('primaries'):
+		for primaries in definition_list['primaries']:
 			#pprint.pprint( primaries['entries'])
-            for entries in primaries['entries']:
+			for entries in primaries['entries']:
 				#pprint.pprint( entries)
 				#print "---------------------"
-                if entries['type'] == 'meaning':
+				if entries['type'] == 'meaning':
 					#pprint.pprint(entries)
-                	if len(entries['terms']) > 0:
-                		print(entries['terms'][0]['text'].replace(('love'),"<Your Word>"))
-                		found = 1
+					if len(entries['terms']) > 0:
+						print(entries['terms'][0]['text'].replace(('love'),"<Your Word>"))
+						found = 1
 					
-            if 'labels' in primaries['terms'][0]:
-            	part_of_speach.append(" "+ primaries['terms'][0]["labels"][0]['text'])
+			if primaries['terms'][0].has_key('labels'):
+				part_of_speach.append(" "+ primaries['terms'][0]["labels"][0]['text'])
 	
     if not found:
-    	if 'webDefinitions' in definition_list:	
-            for primaries in definition_list['webDefinitions']:
+		if definition_list.has_key('webDefinitions'):	
+			for primaries in definition_list['webDefinitions']:
 				#pprint.pprint( primaries['entries'])
-            	for entries in primaries['entries']:
+				for entries in primaries['entries']:
 					#pprint.pprint( entries)
 					#print "---------------------"
-            		if entries['type'] == 'meaning':
+					if entries['type'] == 'meaning':
 						#pprint.pprint(entries)
-            			if len(entries['terms']) > 0:
-            				print(entries['terms'][0]['text'].replace(('love'),"<Your Word>"))
-            				found =0
-            	if 'labels' in primaries['terms'][0]:			
-            		part_of_speach.append( primaries['terms'][0]["labels"][0]['text'])
-    print ("Part of Speach :"+ str(part_of_speach))
+						if len(entries['terms']) > 0:
+							print(entries['terms'][0]['text'].replace(('love'),"<Your Word>"))
+							found =0
+				if primaries['terms'][0].has_key('labels'):			
+					part_of_speach.append( primaries['terms'][0]["labels"][0]['text'])
+    print "Part of Speach :"+ str(part_of_speach)
 	 
 
 name = input('What is your name?\n')
@@ -139,18 +139,12 @@ else:
                 question = line.strip()
                 if os.path.isfile("sounds/"+question+".mp3") :
                     play(question)
-                    answer = input("Enter spelling (q : to quit; r : to repeat d : to define):")
+                    answer = input("Enter spelling (q : to quit; r : to repeat):")
                     if(answer == 'q'):
                         break
-                    while answer == 'r' or answer == 'd':
-                    	if answer == 'r':
-                    		play(question) 
-                    	if answer == 'd':
-                    		if os.path.isfile("definitions/"+question+".txt"):
-                    			word_definition(open("definitions/"+question+".txt")) 
-                    		else:
-                    			print("Sorry no definition!")
-                    	answer = input("Enter spelling (q : to quit; r : to repeat d : to define):")		
+                    while answer == 'r':
+                        play(question) 
+                        answer = input("Enter spelling (q : to quit; r : to repeat):")
                     if(answer == question):
                         play('/response/ding')
                         #play('is')

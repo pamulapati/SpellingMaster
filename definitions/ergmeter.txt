@@ -1,0 +1,1 @@
+dict_api.callbacks.id100({"query":"ergmeter","sourceLanguage":"en","targetLanguage":"en"},200,null)
