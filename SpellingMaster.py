@@ -100,7 +100,7 @@ def word_definition (word):
      
 
 name = input('What is your name?\n')
-if name not in ('Anjali', 'Angel'):
+if name not in ('Anjali', 'Angel','Test'):
     print ('This system servers only Anjali princess, you are not my master go away!!!')
     print ('System shutting down')
 else:
@@ -117,11 +117,11 @@ else:
         which_file = int(input('What do you want to spell from (Enter 1: For latest home work, 2: for all home work, 3: for big list of any words 4: for past misspells) '))
         
         if(which_file == 1):
-           filename = "recenthomework.txt"
+           filename = name+"/recenthomework.txt"
         elif(which_file == 2):
-           filename = "allhomework.txt" 
+           filename = name+"/allhomework.txt" 
         elif(which_file == 4):
-           filename = 'misspelled.txt'
+           filename = name+"/misspelled.txt"
         else:          
            filename = "biglist.txt"         
         
@@ -163,7 +163,7 @@ else:
                     else:
                         play('/response/buzzer')
                         correctSpelling(question)
-                        e = open('misspelledfile.txt', 'a')
+                        e = open(name+'/misspelledfile.txt', 'a')
                         e.write(question + '\n')
                         e.flush()
                         e.close()

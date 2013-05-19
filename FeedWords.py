@@ -69,7 +69,7 @@ def word_definition (word):
     print ("------End of Definition-------")
 
 name = input('What is your name?\n')
-if name not in ('Anjali', 'Angel'):
+if name not in ('Anjali', 'Angel','Test'):
     print ('This system servers only Anjali princess, you are not my master go away!!!')
     print ('System shutting down')
 else:
@@ -79,8 +79,8 @@ else:
     else:
         print ('Ok let us rock on ...') 
         add = True
-        recenthomeworkfile = open('recenthomework.txt', 'w')
-        allhomeworkfile = open('allhomework.txt', 'a')
+        recenthomeworkfile = open(name+'/recenthomework.txt', 'w')
+        allhomeworkfile = open(name+'/allhomework.txt', 'a')
         count=0
         while(1):
             value = input('Enter new word (q: to quit)')
