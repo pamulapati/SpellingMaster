@@ -69,7 +69,7 @@ def word_definition (word):
     print ("------End of Definition-------")
 
 name = input('What is your name?\n')
-if name not in ('Anjali', 'Angel','Test'):
+if name not in ('Anjali', 'Angel','Test','Arun'):
     print ('This system servers only Anjali princess, you are not my master go away!!!')
     print ('System shutting down')
 else:

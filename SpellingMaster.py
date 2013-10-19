@@ -56,6 +56,7 @@ def correctSpelling(word):
 
 
 def word_definition (word):
+    print ("------Definition-------")
     df = open("definitions/" + word + ".txt")
     definition = df.readline()
     definition = definition.replace("dict_api.callbacks.id100(", "").replace(",200,null)", "").replace("\\x", "\\u00");
@@ -97,10 +98,10 @@ def word_definition (word):
                 if 'labels' in primaries['terms'][0]:            
                     part_of_speach.append(primaries['terms'][0]["labels"][0]['text'])
     print ("Part of Speach :" + str(part_of_speach))
-     
+    print ("------End of Definition-------") 
 
 name = input('What is your name?\n')
-if name not in ('Anjali', 'Angel','Test'):
+if name not in ('Anjali', 'Angel','Test','Arun','Chins'):
     print ('This system servers only Anjali princess, you are not my master go away!!!')
     print ('System shutting down')
 else:
@@ -114,15 +115,17 @@ else:
                       
         print ('Ok , let the Spell Buzz begin.')
         
-        which_file = int(input('What do you want to spell from (Enter 1: For latest home work, 2: for all home work, 3: for big list of any words 4: for past misspells) '))
+        which_file = int(input('What do you want to spell from (Enter 1: Latest home work, 2: All home work, 3: Big list of any words 4: Past misspells 5:Elementry Dictionary) '))
         
         if(which_file == 1):
            filename = name+"/recenthomework.txt"
         elif(which_file == 2):
            filename = name+"/allhomework.txt" 
         elif(which_file == 4):
-           filename = name+"/misspelled.txt"
-        else:          
+           filename = name+"/misspelledfile.txt"
+        elif(which_file == 5):
+           filename = name+"/elementrydct.txt"
+        elif(which_file == 3):
            filename = "biglist.txt"         
         
         
