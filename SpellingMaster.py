@@ -68,6 +68,7 @@ def word_definition (word):
     # pprint.pprint(definition_list['primaries'])
     found = 0
     part_of_speach = []
+    count = 0
     if 'primaries' in definition_list:
         for primaries in definition_list['primaries']:
             # pprint.pprint( primaries['entries'])
@@ -77,7 +78,8 @@ def word_definition (word):
                 if entries['type'] == 'meaning':
                     # pprint.pprint(entries)
                     if len(entries['terms']) > 0:
-                        print(entries['terms'][0]['text'].replace((word), "<Your Word>"))
+                        count = count+1	
+                        print(str(count)+") "+ entries['terms'][0]['text'].replace((word), "<Your Word>"))
                         found = 1
                         
             if 'labels' in primaries['terms'][0]:
@@ -93,7 +95,8 @@ def word_definition (word):
                     if entries['type'] == 'meaning':
                         # pprint.pprint(entries)
                         if len(entries['terms']) > 0:
-                            print(entries['terms'][0]['text'].replace((word), "<Your Word>"))
+                            count = count+1						
+                            print(str(count)+") "+ entries['terms'][0]['text'].replace((word), "<Your Word>"))
                             found = 0
                 if 'labels' in primaries['terms'][0]:            
                     part_of_speach.append(primaries['terms'][0]["labels"][0]['text'])
